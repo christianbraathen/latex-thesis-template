@@ -1,0 +1,209 @@
+\RequirePackage[l2tabu, orthodox]{nag}
+\documentclass[12pt]{report}
+\usepackage[a4paper, portrait, top=1.25in, bottom=1in, left=1in, right=1in]{geometry} % A4 og Marger
+
+% Endrer linjeavstand bortsett fra i fotnoter o.l.
+\usepackage{setspace} 
+\onehalfspacing
+
+% Disse er for header og footer
+\usepackage{fancyhdr,lastpage}% http://ctan.org/pkg/{fancyhdr,graphicx,lastpage}
+\fancypagestyle{plain}{
+  \fancyhf{}% Clear header/footer
+  \fancyfoot[C]{\thepage} % Right footer
+}
+\pagestyle{plain} % Set page style to plain.
+\renewcommand{\headrulewidth}{0pt}
+
+\usepackage{showlabels}
+
+\usepackage{courier}
+\usepackage{listings}
+
+
+
+% -------------------------------------------
+% Ikke juster på disse
+
+%\usepackage{mathptmx} % http://ctan.org/pkg/mathptmx
+\usepackage[utf8]{inputenc} % Latinske bokstaver for å få æ, ø, å.
+\usepackage{hyperref} % Linker til delene i ToC'en
+\usepackage{caption} % For å kunne endre på caption-bredden
+\usepackage{csquotes} % For å kunne lage block quotes
+\usepackage{enumitem} % Mer valgfrihet med listene
+\usepackage[american]{babel} % Norsk grammatikk
+\usepackage{graphicx}
+\graphicspath{{images/}{../images/}} % I tilfelle jeg har en egen images-mappe
+\usepackage[usenames, dvipsnames]{color} % Farge til linkene
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{arydshln}
+\usepackage[normalem]{ulem}
+\usepackage[ampersand]{easylist}
+\usepackage[T1]{fontenc}
+\usepackage{microtype}
+\usepackage{siunitx}
+\usepackage{booktabs}
+% \usepackage[colorlinks=false, pdfborder={0 0 0}]{hyperref}
+\usepackage{cleveref}
+\usepackage[parfill]{parskip}
+\usepackage[table,xcdraw]{xcolor}
+\usepackage{float} % Bruk [H] for å force hit.
+%\usepackage{apacite} %For å få kildelister i APA 6th
+\usepackage{verbatim} % Multi-line comments
+\usepackage{makeidx} % Indeks på slutten
+\usepackage[totoc]{idxlayout} % Indeks i ToC
+\makeindex % Indeks på slutten
+% \renewcommand{\indexname}{Index of whatever I want} 01ulig å prøve denne
+
+%\label{babel norsk}
+%\usepackage[norsk]{babel}
+%\addto\captionsnorsk{%
+%  \renewcommand*{\indexname}{Indeks}
+%}
+\usepackage{bbm}
+%-------------------------------------------------------------- %
+\label{babel engelsk}
+
+\usepackage[american]{babel}
+\addto\captionsenglish{%
+  \renewcommand*{\indexname}{INDEX NAME TO BE CHANGED}
+}
+
+%-------------------------------------------------------------- %
+
+\usepackage[toc,page]{appendix}
+
+
+% For å unngå å breake fotnoter
+\interfootnotelinepenalty=10000
+
+\label{For abstract}
+% For abstract
+\renewcommand{\abstractname}{Abstract} % Endrer navnet på abstract
+\addto\captionsnorsk{\renewcommand{\abstractname}{Abstract}} % Endrer navnet på Abstract hvis jeg bruker babel norsk
+\addto\captionsenglish{\renewcommand{\abstractname}{Abstract}} % Endrer navnet på Abstract hvis jeg bruker babel engelsk
+
+
+\label{For Contents}
+% Disse er for innholdsfortegnelsene
+\renewcommand{\contentsname}{Innholdsfortegnelse} % Endrer navnet på ToC
+%\renewcommand{\listfigurename}{Figurliste} % Endrer navnet på ToC-figurer
+%\renewcommand{\listtablename}{Tabelliste} % Endrer navnet på ToC-tabeller
+%\renewcommand{\chaptername}{} % Endrer navnet på Kapittelnavn
+\addto\captionsamerican{\renewcommand{\chaptername}{}} % Endrer navnet på Kapittelnavn hvis jeg bruker babel
+%\renewcommand{\figurename}{Figur} % Endrer navnet på figurene fra "Figure"
+%\renewcommand{\tablename}{Tabell} % Endrer navnet på tabellene fra "Table"
+%\renewcommand{\bibname}{Kildeliste}
+
+\usepackage{xpatch} % Endre størrelse på ToC, LoF, og LoT-titlene
+\makeatletter
+\xpatchcmd{\tableofcontents}{\contentsname \@mkboth}{\Large\contentsname \@mkboth}{}{}
+\xpatchcmd{\listoffigures}{\chapter *{\listfigurename }}{\chapter *{\large\listfigurename }}{}{}
+\xpatchcmd{\listoftables}{\chapter *{\listtablename }}{\chapter *{\large\listtablename }}{}{}
+\makeatother
+
+\setcounter{tocdepth}{3} % Inkluder i ToC t.o.m. {#}
+\setcounter{secnumdepth}{3} % Inkluder i nummerering t.o.m. {#}
+%  -1	Part
+%	0	Chapter
+%	1	Section
+%	2	Subsection
+%	3	Subsubsection
+%	4	Paragraph
+%	5	Subparagraph	
+
+
+%in the preamble
+%--------------------------------
+  \usepackage[
+    backend=biber,
+    style=apa,
+    date=short
+  ]{biblatex}
+ \DeclareLanguageMapping{american}{american-apa}
+ 
+ \addbibresource{bib_category_1.bib}
+ \addbibresource{bib_category_2.bib}
+ \addbibresource{bib_category_3.bib} 
+ 
+ \renewcommand*{\finalnamedelim}{%
+  \ifnumgreater{\value{liststop}}{2}{\finalandcomma}{}%
+  \addspace\&\space}
+ 
+\usepackage{calrsfs}
+\DeclareMathAlphabet{\pazocal}{OMS}{zplm}{m}{n}
+\newcommand{\Na}{\mathcal{N}}
+\newcommand{\Nb}{\pazocal{N}}
+
+\usepackage{listings}
+\usepackage{tikz}
+
+\newcounter{defcounter}
+\setcounter{defcounter}{0}
+\newenvironment{LP}{%
+\addtocounter{equation}{-1}
+\refstepcounter{defcounter}
+\renewcommand\theequation{P\thedefcounter}
+\begin{equation}}
+{\end{equation}}
+
+\usepackage{subfiles}
+
+
+\begin{document}
+
+
+\subfile{sections/01_introduction/0101_front_page} % Forside
+\subfile{sections/01_introduction/0102_abstract} % Abstract
+\subfile{sections/01_introduction/0103_acknowledgements} % Acknowledgements
+
+
+
+
+
+\newpage
+
+%-------------------------------------------------------------- %
+\pagenumbering{roman} % Romertall for ToC-sidene
+
+\begingroup % For å fjerne topp-whitespace på ToC, LoF, og LoT
+\makeatletter
+% Redefine the \chapter* header macro to remove vertical space
+\def\@makeschapterhead#1{%
+  \vspace{140pt}% Remove the vertical space
+  {\parindent \z@ \raggedright
+    \normalfont
+    \interlinepenalty\@M
+    \Huge \bfseries  #1\par\nobreak
+    \vskip 10\p@
+  }}
+\makeatother
+
+%\frontmatter % bruk for bøker 
+
+\tableofcontents
+\addtocontents{toc}{~\hspace{428pt}\textbf{Page}\par}
+\begingroup
+\let\clearpage\relax 
+\vspace{-100pt}
+% \addtocontents{lof}{~\hfill\textbf{Side}\par} %Fjern prosenten foran hvis jeg vil ha side i LoF
+%\listoffigures{}
+%\vspace{-100pt}
+% \addtocontents{lot}{~\hfill\textbf{Side}\par} %Fjern prosenten foran hvis jeg vil ha side i LoT
+% \listoftables{}
+\endgroup
+
+\clearpage
+\pagenumbering{arabic} % Tilbake til arabiske tall for oppgaven.
+% \mainmatter % Bruk for bøker
+%-------------------------------------------------------------- %
+
+
+\subfile{sections/02_literature/020_previous_literature} %
+\printbibliography
+
+% END WRITING HERE
+%-------------------------------------------------------------- %
+
+\end{document}
